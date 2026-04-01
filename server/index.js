@@ -12,6 +12,7 @@ import gmailRoutes from './routes/gmailRoutes.js';
 import urlRoute from './routes/urlRoute.js';
 import imageRoutes from './routes/imageRoutes.js';
 import youtubeRoutes from './routes/youtubeRoutes.js';
+import screenshotRoute from './routes/screenshotRoute.js';
 
 const app = express();
 const server = http.createServer(app);
@@ -28,6 +29,7 @@ app.use('/', gmailRoutes);
 app.use('/', urlRoute);
 app.use('/', imageRoutes);
 app.use('/youtube', youtubeRoutes);
+app.use('/api', screenshotRoute);
 
 // Environment variables
 const PORT = process.env.PORT || 3000;
