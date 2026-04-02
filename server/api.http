@@ -1,0 +1,34 @@
+### Gmail API Integration Module REST API Tests
+@baseUrl = http://localhost:2000
+
+---
+### 1. Initiate OAuth Login
+### NOTE: Open this URL in your browser to actually authenticate and get the redirect to /callback.
+GET {{baseUrl}}/auth/google
+
+
+---
+### 2. Fetch Latest 10 Emails
+### Prerequisites: You must have completed Step 1 in your browser.
+GET {{baseUrl}}/gmail/latest
+
+
+---
+### 3. Start Polling for New Emails
+### Initiates background interval checking every 20s.
+POST {{baseUrl}}/gmail/start-watch
+
+
+---
+### 4. Stop Polling
+### Terminates background interval check.
+POST {{baseUrl}}/gmail/stop-watch
+
+###
+
+POST https://nick-2x-email2.hf.space/predict
+Content-Type: application/json
+
+{
+    "text": "hello world"
+}
