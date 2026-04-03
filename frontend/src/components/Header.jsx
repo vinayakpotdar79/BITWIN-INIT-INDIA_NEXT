@@ -2,8 +2,6 @@
 import React, { useState } from "react";
 import { LogOut, Menu, X, Moon, Sun } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
-import Lottie from "lottie-react";
-import kavachx from "../assets/kavachx2.json";
 
 export default function Header({
   activeTab,
@@ -44,8 +42,7 @@ export default function Header({
                   : "from-purple-600 to-pink-600 group-hover:from-purple-500 group-hover:to-pink-500"
               }`}
             >
-              {/* KavachX */}
-              <Lottie animationData={kavachx} />
+              KavachX
             </h1>
           </div>
 
