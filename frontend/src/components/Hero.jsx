@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, Sparkles, Zap } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 
-export default function Hero({ setActiveTab }) {
+export default function Hero() {
+  const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
   const { isDark } = useTheme();
 
@@ -112,7 +114,7 @@ export default function Hero({ setActiveTab }) {
         >
           {/* Primary Button */}
           <button
-            onClick={() => setActiveTab('features')}
+            onClick={() => navigate('/features')}
             className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 hover:-translate-y-1 active:translate-y-0"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-pink-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -125,7 +127,7 @@ export default function Hero({ setActiveTab }) {
 
           {/* Secondary Button */}
           <button
-            onClick={() => setActiveTab('features')}
+            onClick={() => navigate('/features')}
             className={`group relative px-8 py-4 font-semibold rounded-xl backdrop-blur-md transition-all duration-300 hover:-translate-y-1 active:translate-y-0 border-2 ${isDark
               ? 'border-white/30 text-white hover:bg-white/10 hover:border-white/60 hover:shadow-xl hover:shadow-blue-500/20'
               : 'border-gray-300 text-gray-900 hover:bg-gray-100 hover:border-gray-400 hover:shadow-xl hover:shadow-gray-500/20'

@@ -1,9 +1,10 @@
-// src/components/Features.jsx - UPDATED WITH NEW FEATURES
 import React from 'react';
 import { Globe, AlertTriangle, Zap } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 
-export default function Features({ setActiveTab }) {
+export default function Features() {
+  const navigate = useNavigate();
   const { isDark } = useTheme();
 
   const features = [
@@ -13,7 +14,7 @@ export default function Features({ setActiveTab }) {
       description: 'Analyze URLs in real-time to detect phishing, malware, and suspicious websites. Get instant threat assessment before visiting any link.',
       icon: Globe,
       gradient: 'from-blue-500 to-cyan-500',
-      tabId: 'website-detector',
+      path: '/website-detector',
       color: 'blue'
     },
     {
@@ -22,7 +23,7 @@ export default function Features({ setActiveTab }) {
       description: 'Analyze emails and messages to identify phishing attempts, social engineering, and malicious intent. Understand attack patterns and protect yourself.',
       icon: AlertTriangle,
       gradient: 'from-red-500 to-orange-500',
-      tabId: 'attacker-intent',
+      path: '/attacker-intent',
       color: 'red'
     },
     {
@@ -31,7 +32,7 @@ export default function Features({ setActiveTab }) {
       description: 'Compare threats against our database of known attacks. Identify similar patterns and learn from previous security incidents to stay ahead.',
       icon: Zap,
       gradient: 'from-yellow-500 to-orange-500',
-      tabId: 'threat-similarity',
+      path: '/threat-similarity',
       color: 'yellow'
     }
   ];
@@ -81,7 +82,7 @@ export default function Features({ setActiveTab }) {
             return (
               <button
                 key={feature.id}
-                onClick={() => setActiveTab(feature.tabId)}
+                onClick={() => navigate(feature.path)}
                 className={`group relative p-8 rounded-2xl backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl text-left w-full cursor-pointer ${
                   isDark
                     ? 'bg-white/5 border border-white/10 hover:border-white/30 hover:bg-white/10 hover:shadow-purple-500/20'
