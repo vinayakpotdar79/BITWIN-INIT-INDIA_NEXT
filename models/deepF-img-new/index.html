@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Deepfake Detector (Test UI)</title>
+</head>
+
+<body style="font-family: Arial; padding: 20px;">
+
+    <h2>🧠 Deepfake Detection Test UI</h2>
+
+    <!-- IMAGE SECTION -->
+    <h3>📸 Test Image</h3>
+    <input type="file" id="imageInput" accept="image/*">
+    <button onclick="uploadImage()">Predict Image</button>
+
+    <p id="imageResult"></p>
+
+    <hr>
+
+    <!-- VIDEO SECTION -->
+    <h3>🎥 Test Video</h3>
+    <input type="file" id="videoInput" accept="video/*">
+    <button onclick="uploadVideo()">Predict Video</button>
+
+    <p id="videoResult"></p>
+
+    <script>
+        const API_BASE = "http://127.0.0.1:8000";
+
+        // 📸 IMAGE FUNCTION
+        async function uploadImage() {
+            const fileInput = document.getElementById("imageInput");
+            const resultBox = document.getElementById("imageResult");
+
+            if (!fileInput.files.length) {
+                alert("Select an image first!");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+
+            resultBox.innerText = "⏳ Processing image...";
+
+            try {
+                const res = await fetch(`${API_BASE}/predict/image`, {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!res.ok) throw new Error("API Error");
+
+                const data = await res.json();
+
+                resultBox.innerText =
+                    `Prediction: ${data.prediction}
+Confidence: ${data.confidence.toFixed(4)}`;
+
+            } catch (err) {
+                resultBox.innerText = "❌ Error: Unable to connect to API";
+                console.error(err);
+            }
+        }
+
+        // 🎥 VIDEO FUNCTION
+        async function uploadVideo() {
+            const fileInput = document.getElementById("videoInput");
+            const resultBox = document.getElementById("videoResult");
+
+            if (!fileInput.files.length) {
+                alert("Select a video first!");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+
+            resultBox.innerText = "⏳ Processing video... (this may take a few seconds)";
+
+            try {
+                const res = await fetch(`${API_BASE}/predict/video`, {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!res.ok) throw new Error("API Error");
+
+                const data = await res.json();
+
+                if (data.final_prediction === "UNKNOWN") {
+                    resultBox.innerText =
+                        "⚠️ Could not analyze video properly. Try another video.";
+                } else {
+                    resultBox.innerText =
+                        `Final: ${data.final_prediction}
+Fake Frames: ${data.fake_frames}
+Real Frames: ${data.real_frames}
+Processed Frames: ${data.total_sampled_frames}`;
+                }
+
+            } catch (err) {
+                resultBox.innerText = "❌ Error: Unable to process video";
+                console.error(err);
+            }
+        }
+    </script>
+
+</body>
+
+</html>

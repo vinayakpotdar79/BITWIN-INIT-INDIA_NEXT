@@ -22,11 +22,13 @@ export default function Header({ isAuthenticated, user, onLogout, onLoginClick }
   const isActive = (path) => location.pathname === path;
 
   return (
-    <header className={`sticky top-0 z-50 backdrop-blur-md border-b transition-colors duration-300 ${
-      isDark
-        ? 'bg-slate-950 border-purple-800/30'
-        : 'bg-white border-gray-200'
-    }`}>
+    <header
+      className={`sticky top-0 z-50 backdrop-blur-md border-b transition-colors duration-300 ${
+        isDark
+          ? "bg-slate-950 border-purple-800/30"
+          : "bg-white border-gray-200"
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex-shrink-0 group">
@@ -65,10 +67,10 @@ export default function Header({ isAuthenticated, user, onLogout, onLoginClick }
               onClick={toggleTheme}
               className={`p-2 rounded-lg transition-all duration-300 border ${
                 isDark
-                  ? 'text-gray-300 hover:text-white hover:bg-white/10 border-transparent hover:border-white/20'
-                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100 border-transparent hover:border-gray-200'
+                  ? "text-gray-300 hover:text-white hover:bg-white/10 border-transparent hover:border-white/20"
+                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-100 border-transparent hover:border-gray-200"
               }`}
-              title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+              title={isDark ? "Switch to light mode" : "Switch to dark mode"}
             >
               {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
@@ -118,8 +120,8 @@ export default function Header({ isAuthenticated, user, onLogout, onLoginClick }
               onClick={toggleTheme}
               className={`p-2 rounded-lg transition-all duration-300 ${
                 isDark
-                  ? 'text-gray-300 hover:text-white hover:bg-white/10'
-                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                  ? "text-gray-300 hover:text-white hover:bg-white/10"
+                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
               }`}
             >
               {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
@@ -129,8 +131,8 @@ export default function Header({ isAuthenticated, user, onLogout, onLoginClick }
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className={`p-2 transition-colors ${
                 isDark
-                  ? 'text-gray-300 hover:text-white'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? "text-gray-300 hover:text-white"
+                  : "text-gray-600 hover:text-gray-900"
               }`}
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -139,11 +141,11 @@ export default function Header({ isAuthenticated, user, onLogout, onLoginClick }
         </div>
 
         {isMobileMenuOpen && (
-          <div className={`md:hidden pb-4 space-y-4 border-t transition-colors duration-300 pt-4 ${
-            isDark
-              ? 'border-purple-800/30'
-              : 'border-gray-200'
-          }`}>
+          <div
+            className={`md:hidden pb-4 space-y-4 border-t transition-colors duration-300 pt-4 ${
+              isDark ? "border-purple-800/30" : "border-gray-200"
+            }`}
+          >
             <nav className="flex flex-col gap-3">
               {visibleItems.map((item) => (
                 <Link
