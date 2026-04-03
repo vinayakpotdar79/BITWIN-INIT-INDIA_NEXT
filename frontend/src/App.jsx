@@ -59,10 +59,24 @@ export default function App() {
 
   const startWatch = async () => {
     try {
-      await fetch(`${API_URL}/gmail/start-watch`, { method: 'POST' });
+      console.log('🔔 Starting Gmail watch...');
+      const res = await fetch(`${API_URL}/gmail/start-watch`, { method: 'POST' });
+      
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || `HTTP ${res.status}`);
+      }
+      
+      const data = await res.json();
+      console.log('✅ Gmail watch started successfully:', data);
+      setError(''); // Clear any previous errors
     } catch (err) {
-      console.error('Failed to start watch', err);
-      setError('Failed to start email watch');
+      console.error('❌ Failed to start watch:', err.message);
+      setError(`Failed to start email watch: ${err.message}`);
+      
+      // Retry after 3 seconds
+      console.log('🔄 Retrying in 3 seconds...');
+      setTimeout(startWatch, 3000);
     }
   };
 
@@ -99,14 +113,37 @@ export default function App() {
   useEffect(() => {
     if (!isAuthenticated) return;
 
+    console.log('✅ User authenticated, setting up Socket.io...');
     fetchLatestEmails();
     startWatch();
 
     if (!socketRef.current) {
-      socketRef.current = io(API_URL);
+      console.log(`🔌 Connecting to Socket.io at: ${API_URL}`);
+      socketRef.current = io(API_URL, {
+        reconnection: true,
+        reconnectionDelay: 1000,
+        reconnectionDelayMax: 5000,
+        reconnectionAttempts: 5
+      });
+
+      socketRef.current.on('connect', () => {
+        console.log('✅ Socket.io CONNECTED! ID:', socketRef.current.id);
+      });
+
+      socketRef.current.on('disconnect', () => {
+        console.log('❌ Socket.io DISCONNECTED');
+      });
+
+      socketRef.current.on('connect_error', (error) => {
+        console.error('❌ Socket.io connection error:', error);
+      });
+
       socketRef.current.on('new-email', (email) => {
+        console.log('🎉 NEW EMAIL RECEIVED VIA SOCKET.IO!', email);
         setEmails((prev) => [email, ...prev]);
       });
+
+      console.log('📡 Socket.io listeners registered');
     }
 
     return () => {

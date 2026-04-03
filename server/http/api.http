@@ -61,3 +61,10 @@ Content-Type: application/json
 {
     "emailBody": "Urgent: Your account has been suspended. Click here to login: http://bit.ly/fake-link"
 }
+
+###
+
+ POST http://localhost:2000/gmail/webhook/test
+
+###
+GET http://localhost:2000/gmail/latest 

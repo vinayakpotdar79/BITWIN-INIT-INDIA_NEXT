@@ -304,6 +304,61 @@ router.get('/gmail/webhook/status', (req, res) => {
 });
 
 /**
+ * Route: POST /gmail/webhook/test
+ * Description: Test endpoint to simulate a Gmail webhook for testing Socket.io
+ */
+router.post('/gmail/webhook/test', async (req, res) => {
+  console.log('\n🧪 TEST WEBHOOK CALLED - Simulating Gmail notification');
+
+  try {
+    // Get a recent message ID to test with
+    if (!userTokens) {
+      return res.status(401).json({ error: 'Not authenticated' });
+    }
+
+    setCredentials(userTokens);
+    const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
+
+    // Get the most recent message
+    const response = await gmail.users.messages.list({
+      userId: 'me',
+      maxResults: 1,
+    });
+
+    const messages = response.data.messages || [];
+    if (messages.length === 0) {
+      return res.status(404).json({ error: 'No messages found to test with' });
+    }
+
+    const messageId = messages[0].id;
+    console.log(`📧 Testing with message ID: ${messageId}`);
+
+    // Force reprocessing even if already processed (for testing)
+    const { getState } = await import('../services/gmailService.js');
+    const state = getState();
+    if (state.processedMessages.has(messageId)) {
+      console.log(`🔄 Reprocessing already processed message for testing: ${messageId}`);
+    }
+
+    // Process the email (this will emit Socket.io event)
+    await processNewEmail(messageId);
+
+    res.json({
+      success: true,
+      message: 'Test webhook processed successfully',
+      messageId: messageId,
+      note: 'Check your frontend UI for real-time email update'
+    });
+
+  } catch (error) {
+    console.error('❌ Test webhook error:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+import { getIo } from '../socket/socketServer.js';
+
+/**
  * Route: GET /gmail/watch/status
  * Description: Check Gmail watch status and processed messages
  */

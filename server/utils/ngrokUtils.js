@@ -11,7 +11,7 @@ export function getWebhookUrl() {
   }
 
   // For local development, assume local webhook exposed directly
-  return `${process.env.SERVER_URL || 'http://localhost:3000'}/gmail/webhook`;
+  return `${process.env.SERVER_URL || 'http://localhost:2000'}/gmail/webhook`;
 }
 
 /**

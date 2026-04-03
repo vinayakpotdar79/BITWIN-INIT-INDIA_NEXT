@@ -134,8 +134,18 @@ export async function processNewEmail(messageId) {
       console.log(`📡 Emitting Socket.io event 'new-email'...`);
       const io = getIo();
       console.log(`Socket.io instance available: ${!!io}`);
-      io.emit('new-email', emailData);
-      console.log(`✅ Socket.io event emitted successfully`);
+      
+      // Get all connected clients
+      const connectedClients = io.sockets.sockets.size;
+      console.log(`📊 Connected clients: ${connectedClients}`);
+      
+      if (connectedClients > 0) {
+        // Emit to all connected clients
+        io.sockets.emit('new-email', emailData);
+        console.log(`✅ Socket.io event emitted successfully to ${connectedClients} client(s)`);
+      } else {
+        console.warn(`⚠️ No clients connected, event not emitted`);
+      }
 
       // Mark as processed
       state.processedMessages.add(messageId);
