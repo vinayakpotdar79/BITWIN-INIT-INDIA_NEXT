@@ -25,7 +25,7 @@ export default function Features({ setActiveTab }) {
     //   gradient: 'from-red-500 to-orange-500',
     //   tabId: 'attacker-intent',
     //   color: 'red'
-    // },
+    // }, Hellooooo
     {
       id: 2,
       title: "Threat Similarity Engine",
