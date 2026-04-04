@@ -18,7 +18,7 @@ import threatRoutes from "./routes/threatRoutes.js";
 import videoRoutes from "./routes/videoRoutes.js";
 import { launchBot } from "./services/telegramService.js";
 
-launchBot();
+// launchBot();
 
 const app = express();
 const server = http.createServer(app);
@@ -42,6 +42,8 @@ app.use("/", videoRoutes);
 
 // Environment variables
 const PORT = process.env.PORT || 3000;
+
+
 
 // Start Server - Directly for now to ensure it starts
 server.listen(PORT, () => {

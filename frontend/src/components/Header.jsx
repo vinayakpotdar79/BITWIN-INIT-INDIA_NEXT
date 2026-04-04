@@ -45,8 +45,8 @@ export default function Header({
                   : "from-purple-600 to-pink-600 group-hover:from-purple-500 group-hover:to-pink-500"
               }`}
             >
-              {/* KavachX */}
-              <Lottie animationData={kavachx} />
+              KavachX
+              {/* <Lottie animationData={kavachx} /> */}
             </h1>
           </div>
 
